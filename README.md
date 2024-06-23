@@ -49,5 +49,5 @@ python img2ascii.py <imagepath> [-v]
 --- 
 # Acknowledgements
 img2ascii is inspired from [sphaerophoria](https://www.twitch.tv/sphaerophoria)!  
-img47terminal is tremendously helped by [stb](https://github.com/nothings/stb) and [Richard](https://stackoverflow.com/a/33206814)!  
+img47terminal is tremendously helped by [stb](https://github.com/nothings/stb) ([1](./img47terminal/stb_image.h), [2](./img47terminal/stb_image_resize2.h), [3](./img47terminal/stb_image_write.h)) and [Richard](https://stackoverflow.com/a/33206814)!  
 Image source: [Distracted boyfriend](https://en.wikipedia.org/wiki/Distracted_boyfriend)
