@@ -19,7 +19,7 @@ Current projects:
 </table>  
 
 ### usage -
-```c
+```bash
 gcc img47terminal.c -o img47terminal -lm
 ./img47terminal <imagepath> [<w>=80] [<h>=32] [<c>={1,3}]
 ```   
@@ -42,7 +42,7 @@ example:
 </table>  
 
 ### usage -
-```python
+```bash
 python img2ascii.py <imagepath> [-v]
 ```
 
