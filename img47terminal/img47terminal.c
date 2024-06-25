@@ -74,13 +74,13 @@ int main(int argc, char **argv) {
             pos = (y*output_w + x)*input_c;     // !
             pixel = resized_img + pos;
             r = pixel[0], g = pixel[1],  b = pixel[2];
-            // printf("%.1f ", gray);
             
-            // \033[38;2;<r>;<g>;<b>m
             if (output_c == 3)
+                // \033[38;2;<r>;<g>;<b>m
                 printf("\033[38;2;%d;%d;%dm█", r, g, b);
             else {
                 gray = (unsigned char)floor(0.2126*pixel[0] + 0.7152*pixel[1] + 0.0722*pixel[2]);
+                // printf("%hhu ", gray);
                 g_mapped = 232 + (gray * 23) / 255;
                 printf("\033[38;5;%dm█", g_mapped);
             }
