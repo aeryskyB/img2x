@@ -30,14 +30,22 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    assert (argc >= 2 && argc <= 4);
+    if (argc < 2 && argc > 4) {
+        printf("Insufficient/overloaded arguments\n");
+        stbi_image_free(img);
+        return 1;
+    }
 
     for(int _ = 0; _ < 50; _++) printf("-"); printf("\n\n");
     printf("%s\n", style);
     printf("image loaded: %s\n", argv[1]);
     printf("image shape: (%d, %d, %d)\n", input_w, input_h, input_c);
 
-    assert (input_c == 3 || input_c == 1); 
+    if (!(input_c == 3 || input_c == 1)) {
+        printf("Wrong/unsupported number of channels\n");
+        stbi_image_free(img);
+        return 1;
+    }
 
     output_c = input_c;
     switch (argc) {
@@ -45,8 +53,19 @@ int main(int argc, char **argv) {
             output_w = atoi(argv[3]);
         case 3:
             output_c = atoi(argv[2]);
-            assert (output_c == 1 || output_c == 3);
             break;
+    }
+
+    if (!(output_c == 3 || output_c == 1)) {
+        printf("Wrong/unsupported number of channels\n");
+        stbi_image_free(img);
+        return 1;
+    }
+
+    if (input_c == 1 && output_c == 3) {
+        printf("Doesn't colorize grayscale images yet 🥲");
+        stbi_image_free(img);
+        return 1;
     }
 
     output_h = round(output_w * ((float)input_h / input_w));
