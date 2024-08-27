@@ -22,32 +22,34 @@ const char style[] = ""
 " ---------\n";
 
 int main(int argc, char **argv) {
-    int input_w, input_h, input_c, output_w = 80, output_h = 32, output_c;
+    int input_w, input_h, input_c, output_w = 48, output_h, output_c;
     unsigned char * img = stbi_load(argv[1], &input_w, &input_h, &input_c, 0);
-    
+
     if (img == NULL) {
         printf("Error loading image\n");
         return 1;
-    }    
-    
+    }
+
+    assert (argc >= 2 && argc <= 4);
+
     for(int _ = 0; _ < 50; _++) printf("-"); printf("\n\n");
     printf("%s\n", style);
     printf("image loaded: %s\n", argv[1]);
     printf("image shape: (%d, %d, %d)\n", input_w, input_h, input_c);
-    
+
     assert (input_c == 3 || input_c == 1); 
 
     output_c = input_c;
     switch (argc) {
-        case 5:
-            output_c = atoi(argv[4]);
-            assert (output_c == 1 || output_c == 3);
         case 4:
-            output_h = atoi(argv[3]);
+            output_w = atoi(argv[3]);
         case 3:
-            output_w = atoi(argv[2]);
+            output_c = atoi(argv[2]);
+            assert (output_c == 1 || output_c == 3);
             break;
     }
+
+    output_h = round(output_w * ((float)input_h / input_w));
 
     unsigned char * resized_img = stbir_resize_uint8_srgb(img, input_w, input_h, 0, 
                                                           NULL, output_w, output_h, 0,
@@ -63,7 +65,7 @@ int main(int argc, char **argv) {
     printf("reshaped image: (%d, %d, %d)\n", output_w, output_h, output_c);
     for(int _ = 0; _ < 50; _++) printf("-"); printf("\n\n");
 
-    // TEST: write
+    //  TEST: write
     // stbi_write_jpg("./test_out.jpg", output_w, output_h, input_c, resized_img, 100);
 
     unsigned char * pixel, r, g, b;
@@ -74,15 +76,15 @@ int main(int argc, char **argv) {
             pos = (y*output_w + x)*input_c;     // !
             pixel = resized_img + pos;
             r = pixel[0], g = pixel[1],  b = pixel[2];
-            
+
             if (output_c == 3)
                 // \033[38;2;<r>;<g>;<b>m
-                printf("\033[38;2;%d;%d;%dm█", r, g, b);
+                printf("\033[38;2;%d;%d;%dm██", r, g, b);
             else {
                 gray = (unsigned char)floor(0.2126*pixel[0] + 0.7152*pixel[1] + 0.0722*pixel[2]);
                 // printf("%hhu ", gray);
                 g_mapped = 232 + (gray * 23) / 255;
-                printf("\033[38;5;%dm█", g_mapped);
+                printf("\033[38;5;%dm██", g_mapped);
             }
         }
         printf("\n");
@@ -90,7 +92,7 @@ int main(int argc, char **argv) {
     printf("\033[0m\n");
 
     stbi_image_free(resized_img);
-    
+
     return 0;
 }
 

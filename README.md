@@ -21,7 +21,7 @@ Current projects:
 ### usage -
 ```bash
 gcc img47terminal.c -o img47terminal -lm
-./img47terminal <imagepath> [<w>=80] [<h>=32] [<c>={1,3}]
+./img47terminal <imagepath> [<channels> - 1/3] [<width> - 48]
 ```   
 example: 
 
